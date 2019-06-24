@@ -13,19 +13,5 @@
     </div>
 
     <create-comment post="{{ $post->id }}"></create-comment>
-
-    @foreach($comments as $comment)
-    <div class="row bg-white p-2 pt-4 mt-5">
-        <div class="col-9">
-            <strong>{{ $comment->user->name }}</strong>
-            <p class="mt-3">
-                {{ $comment->comment }}
-            </p>
-            <p class="mt-3">
-                {{ $comment->created_at }}
-            </p>
-        </div>
-    </div>
-    @endforeach
 </div>
 @endsection

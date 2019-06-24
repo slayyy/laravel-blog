@@ -1883,6 +1883,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      renderComponent: true,
       postId: this.post,
       form: {
         comment: ''
@@ -1891,15 +1892,20 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    forceRerender: function forceRerender() {
+      this.$forceUpdate();
+    },
     createComment: function createComment(e) {
       var _this2 = this;
 
       axios.post("/comment/".concat(this.postId), this.form).then(function (resp) {
         _this2.form.comment = '';
+        _this2.result = resp.data;
         console.log(resp);
       })["catch"](function (err) {
         console.log(err);
       });
+      this.forceRerender();
       e.preventDefault();
     }
   }
@@ -37319,7 +37325,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._l(_vm.result, function(comment, index) {
+      _vm._l(_vm.result.slice().reverse(), function(comment, index) {
         return _c(
           "div",
           { key: index, staticClass: "row bg-white p-2 pt-4 mt-5" },

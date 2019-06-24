@@ -16,7 +16,7 @@
         </div>
     </form>
 
-    <div class="row bg-white p-2 pt-4 mt-5" v-for="(comment, index) in result" :key="index">
+    <div class="row bg-white p-2 pt-4 mt-5" v-for="(comment, index) in result.slice().reverse()" :key="index">
         <div class="col-9">
             <strong>User ID : {{ comment.user_id }}</strong>
             <p class="mt-3">
@@ -45,6 +45,7 @@
 
         data: function() {
             return {
+                renderComponent: true,
                 postId: this.post,
                 form: {
                     comment: ''
@@ -54,15 +55,21 @@
         },
         
         methods: {
+            forceRerender() {
+                this.$forceUpdate();
+            },
+
             createComment(e) {
                 axios.post(`/comment/${this.postId}`, this.form)
                 .then(resp => {
                     this.form.comment = '';
+                    this.result = resp.data
                     console.log(resp)
                 })
                 .catch(err => {
                     console.log(err)
                 })
+                this.forceRerender();
                 e.preventDefault()
             }
         }
